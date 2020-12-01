@@ -1,0 +1,68 @@
+/*
+ * Copyright 2017-2020 Brambolt ehf.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+  id 'com.brambolt.gradle.build.plugin' apply false
+  id 'com.brambolt.gradle.testkit' apply false
+}
+
+description = 'Apache Velocity convenience plugin.'
+group = 'com.brambolt.gradle'
+
+ext {
+  artifactId = 'brambolt-gradle-velocity'
+  developers = [[
+    email: 'stefan.sigurdsson@brambolt.com',
+    id: 'stefan.sigurdsson@brambolt.com',
+    name: 'Stefán Sigurðsson'
+  ]]
+  inceptionYear = '2017'
+  isGitHosted = true
+  isOpenSource = true // Enables publishing to plugins.gradle.org and Bintray
+  licenses = [[
+    id: 'Apache-2.0',
+    name: 'The Apache Software License, Version 2.0',
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  ]]
+  pluginClass = 'com.brambolt.gradle.VelocityPlugin'
+  pluginDisplayName = 'Brambolt Velocity plugin'
+  pluginId = 'com.brambolt.gradle.velocity'
+  pluginTags = ['apache', 'velocity', 'templates']
+  pluginWebsite = 'https://github.com/brambolt/gradle-velocity'
+  release = bramboltRelease
+  vcsUrl = 'https://github.com/brambolt/gradle-velocity'
+}
+
+apply plugin: 'com.brambolt.gradle.build.plugin'
+apply plugin: 'com.brambolt.gradle.testkit'
+
+dependencies {
+  api 'org.apache.velocity:velocity-engine-core:2.2'
+  implementation "com.brambolt:brambolt-rt:${version}"
+  implementation 'org.apache.velocity.tools:velocity-tools-generic:3.0'
+  testImplementation "com.brambolt.gradle:brambolt-gradle-testkit:${version}"
+  // VelocityTest#testWithoutContext fails without this dependency:
+  testRuntime 'org.apache.commons:commons-lang:2.6'
+}
+
+test {
+  testLogging {
+    outputs.upToDateWhen { false }
+    showStandardStreams = true
+  }
+}
+
+test.finalizedBy(':samples:runAll')

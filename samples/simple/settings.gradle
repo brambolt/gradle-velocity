@@ -1,0 +1,13 @@
+
+pluginManagement {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
+  plugins {
+    id 'com.brambolt.gradle.velocity' version bramboltVersion
+  }
+}
+
+rootProject.name = 'brambolt-gradle-velocity-simple-sample'
+
